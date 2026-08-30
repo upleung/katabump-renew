@@ -2,7 +2,9 @@ name: Katabump Auto Renew
 
 on:
   schedule:
-  - cron: '0 2 */3 * *'  # 每天 UTC 0点 (北京时间 8点) 运行,根据服务到期时间自行修改
+    # 每天 UTC 13:58 (北京时间 21:58) 运行，每天跑一次，提供最高容错率
+    # 彻底避开整点运行的高峰期，降低 Cloudflare 拦截概率
+    - cron: '58 13 * * *' 
   workflow_dispatch: # 允许手动触发
 
 jobs:
