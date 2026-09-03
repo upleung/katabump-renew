@@ -1,0 +1,12 @@
+name: Wasmer KeepAlive
+on:
+  schedule:
+    - cron: '0 */4 * * *' # 每 4 小时发起一次请求
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Wasmer App
+        run: curl -s https://turtle-wiki.wasmer.app > /dev/null
