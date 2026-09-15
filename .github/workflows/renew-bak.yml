@@ -1,4 +1,4 @@
-name: Katabump Auto Renew
+name: Katabump Auto Renew BAK
 
 on:
   schedule:
@@ -17,7 +17,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v6
-    
     - name: ⚙ 设置 Python
       uses: actions/setup-python@v6
       with:
@@ -44,16 +43,6 @@ jobs:
         TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
       run: |
-        # 提前获取出口 IP 并通知 GitHub Actions 进行日志脱敏 (将 IP 隐藏为 ***)
-        # 优先尝试通过本地代理获取 IP，如果代理未开启则获取直连 IP
-        EXPORT_IP=$(curl -s --socks5-hostname 127.0.0.1:1080 https://api.ipify.org || curl -s https://api.ipify.org)
-        
-        # 验证获取到的内容是否为合法的 IP 格式，防止获取失败导致全局掩码
-        if [[ $EXPORT_IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "::add-mask::$EXPORT_IP"
-        fi
-        
-        # 运行主程序 (原有代码保持不变)
         xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
           python3 app.py
         
